@@ -1,4 +1,4 @@
-Dodawanie liczb 10 i 2 daje w wyniku 12 
-Odejmowanie liczb 10 i 2 daje w wyniku 8
-Mnożenie liczb 10 i 2 daje w wyniku 20
-Dzielenie liczb 10 i 2 daje w wyniku 5
+Dodawanie liczb 100 i 10 daje w wyniku 110 
+Odejmowanie liczb 100 i 10 daje w wyniku 90
+Mnożenie liczb 100 i 10 daje w wyniku 1000
+Dzielenie liczb 100 i 10 daje w wyniku 10

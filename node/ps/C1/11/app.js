@@ -10,58 +10,54 @@
 // Wynik działania aplikacji:
 // > zbyt dużo parametrów!
 
-const fs = require('fs')
-const math = require('./math')
+const fs = require('fs');
+const math = require('./math');
 
-const { argv } = require('node:process')
+const { argv } = require('node:process');
 
-const firstFile = process.argv[2]
-const secondFile = process.argv[3]
+const firstFile = process.argv[2];
+const secondFile = process.argv[3];
 
-const firstNumber = Number(
-	fs.readFileSync('./a.txt', { encoding: 'utf8', flag: 'r' })
-)
-const secondNumber = Number(
-	fs.readFileSync('./b.txt', { encoding: 'utf8', flag: 'r' })
-)
+const firstNumber = Number(fs.readFileSync(firstFile, 'utf8'));
+const secondNumber = Number(fs.readFileSync(secondFile, 'utf8'));
 
 const numAdd = `Dodawanie liczb ${secondNumber} i ${firstNumber} daje w wyniku ${math.add(
 	secondNumber,
 	firstNumber
-)}`
+)}`;
 // console.log(numAdd)
 
 const numSub = `Odejmowanie liczb ${secondNumber} i ${firstNumber} daje w wyniku ${math.subtract(
 	secondNumber,
 	firstNumber
-)}`
+)}`;
 // console.log(numSub)
 
 const numMul = `Mnożenie liczb ${secondNumber} i ${firstNumber} daje w wyniku ${math.multiply(
 	secondNumber,
 	firstNumber
-)}`
+)}`;
 // console.log(numMul)
 
 const numDiv = `Dzielenie liczb ${secondNumber} i ${firstNumber} daje w wyniku ${math.divide(
 	secondNumber,
 	firstNumber
-)}`
+)}`;
 // console.log(numDiv)
 
 const data = `${numAdd} 
 ${numSub}
 ${numMul}
-${numDiv}`
+${numDiv}`;
 
-fs.writeFileSync('wynik.txt', data)
+fs.writeFileSync('wynik.txt', data);
 
 // console.log(argv)
 
 if (argv.length === 4) {
-	console.log(`Hello ${firstFile} ${secondFile}`)
+	console.log(`Hello ${firstFile} ${secondFile}`);
 } else if (argv.length > 4) {
-	console.log(`Za dużo parametrów!`)
+	console.log(`Za dużo parametrów!`);
 } else {
-	console.log(`Za mało parametrów`)
+	console.log(`Za mało parametrów`);
 }
