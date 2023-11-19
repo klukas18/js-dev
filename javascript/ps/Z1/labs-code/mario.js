@@ -6,7 +6,7 @@ for (let i = 1; i <= 8; i++) {
 
   let hashes = "";
   for (let j = 0; j < hashesCount; j++) {
-    hashes = hashes + "#";
+          hashes = hashes + "#";
   }
 
   let spaces = "";
