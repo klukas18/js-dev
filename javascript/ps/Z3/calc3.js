@@ -59,4 +59,7 @@ const result = myArray4.map((number) => number * 2).filter((number)=> number < 4
 
 console.log(result);
 
+
+fun
+
 // ~~~~~~~~~~~~~
