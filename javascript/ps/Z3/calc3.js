@@ -62,4 +62,6 @@ const result = myArray4
 
 console.log(result);
 
+fun;
+
 // ~~~~~~~~~~~~~
