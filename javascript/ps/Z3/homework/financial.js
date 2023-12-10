@@ -35,16 +35,16 @@ console.log(findSpendingsByYear(2014));
 
 // 2. Spendings per company
 
-function findSpendingsPerCompany(company) {
-	return financialData
-		.filter((transaction) =>
-			transaction.detailsOfPayent.company.includes(company)
-		)
-		.reduce((acc, transaction) => {
-			const spendings = Number(transaction.cost);
-			return (result = Math.round((acc += spendings)));
-		}, 0);
-}
+// function findSpendingsPerCompany(company) {
+// 	return financialData
+// 		.filter((transaction) =>
+// 			transaction.detailsOfPayent.company.includes(company)
+// 		)
+// 		.reduce((acc, transaction) => {
+// 			const spendings = Number(transaction.cost);
+// 			return (result = Math.round((acc += spendings)));
+// 		}, 0);
+// }
 // console.log(findSpendingsPerCompany('CODAX'));
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!!!!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,19 +115,19 @@ console.log(findSpendingsByMonth(financialData));
 
 // 5. Spendings per day of the week
 
-function findSpendingsByDay(data) {
-	const dailySpendings = data.reduce((acc, transaction) => {
-		const { cost } = transaction;
-		const date = transaction.detailsOfPayent.date.split('-');
-		const day = parseInt(date[0], 10);
+// function findSpendingsByDay(data) {
+// 	const dailySpendings = data.reduce((acc, transaction) => {
+// 		const { cost } = transaction;
+// 		const date = transaction.detailsOfPayent.date.split('-');
+// 		const day = parseInt(date[0], 10);
 
-		if (!acc[day]) {
-			acc[day] = parseFloat(cost);
-		} else {
-			acc[day] += parseFloat(cost);
-		}
-		return acc;
-	}, {});
-	return dailySpendings;
-}
-console.log(findSpendingsByDay(financialData));
+// 		if (!acc[day]) {
+// 			acc[day] = parseFloat(cost);
+// 		} else {
+// 			acc[day] += parseFloat(cost);
+// 		}
+// 		return acc;
+// 	}, {});
+// 	return dailySpendings;
+// }
+// console.log(findSpendingsByDay(financialData));
