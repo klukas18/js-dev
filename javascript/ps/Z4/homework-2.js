@@ -7,34 +7,34 @@
 const API_URL = `https://rickandmortyapi.com/api/episode`;
 
 async function getCharactersFromEpisode(episodeNumber) {
-	try {
-		const episodeResponse = await fetch(`${API_URL}/${episodeNumber}`);
+  try {
+    const episodeResponse = await fetch(`${API_URL}/${episodeNumber}`);
 
-		if (!episodeResponse.ok) {
-			throw new Error('Something went wrong!');
-		}
+    if (!episodeResponse.ok) {
+      throw new Error("Something went wrong!");
+    }
 
-		const episodeData = await episodeResponse.json();
+    const episodeData = await episodeResponse.json();
 
-		const characterUrls = episodeData.characters;
+    const characterUrls = episodeData.characters;
 
-		const getAllCharacters = characterUrls.map((characterUrl) =>
-			fetch(characterUrl)
-		);
+    const getAllCharacters = characterUrls.map((characterUrl) =>
+      fetch(characterUrl)
+    );
 
-		const allCharactersResponses = await Promise.all(getAllCharacters);
+    const allCharactersResponses = await Promise.all(getAllCharacters);
 
-		const characterNames = await Promise.all(
-			allCharactersResponses.map(async (response) => {
-				const characterData = await response.json();
-				return characterData.name;
-			})
-		);
+    const characterNames = await Promise.all(
+      allCharactersResponses.map(async (response) => {
+        const characterData = await response.json();
+        return characterData.name;
+      })
+    );
 
-		console.log(`Characters from episode ${episodeNumber}:`, characterNames);
-	} catch (e) {
-		console.log(`Error:`, error);
-	}
+    console.log(`Characters from episode ${episodeNumber}:`, characterNames);
+  } catch (e) {
+    console.log(`Error:`, error);
+  }
 }
 
 getCharactersFromEpisode(7);
