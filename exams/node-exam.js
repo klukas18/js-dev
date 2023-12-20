@@ -13,11 +13,10 @@ Sposób obsługi parametrów wejściowych jest dowolny (w kodzie rozwiązania na
 const colors = require('colors');
 const text = process.argv[2];
 
-if (process.argv.length !== 3) {
+if (process.argv.length !== 3 || text === '' || text === ' ') {
 	console.log(
-		`Wrong number of arguments! You need to pass one argument to see the rainbow!`
+		`Wrong number of arguments! You need to pass one legitimate argument to see the rainbow!`
 	);
-	process.exitCode = 1;
 } else {
 	console.log(text.rainbow);
 }
