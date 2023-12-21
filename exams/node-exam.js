@@ -38,14 +38,55 @@ po zmianie nazwy app.js na app2.js
 > node app2.js //wyświetla szczegóły pliku app2.js
 Podpowiedź: jest to możliwe przy użyciu wbudowanych modułów Node.js. */
 
-const fs = require('fs');
+// const fs = require('fs');
 
-fs.stat(__filename, (error, stats) => {
-	if (error) {
-		console.log(error);
-	} else {
-		console.log(
-			`File created at: ${stats.birthtime},\nLast modified: ${stats.mtime},\nCurrent size: ${stats.size}`
-		);
+// fs.stat(__filename, (error, stats) => {
+// 	if (error) {
+// 		console.log(error);
+// 	} else {
+// 		console.log(
+// 			`File created at: ${stats.birthtime},\nLast modified: ${stats.mtime},\nCurrent size: ${stats.size}`
+// 		);
+// 	}
+// });
+
+/* 4. [5 punktów] Napisz aplikację która odczyta z pliku data.json liczbę oraz nazwę pliku, a następnie:
+ - pobierze z API informacje o danej liczbie (https://lukaszuk.net/numbers.php?number={number}, np https://lukaszuk.net/numbers.php?number=1)
+ - informacje pobrane z API zapisze w pliku o pobranej wcześniej nazwie
+Przykład pliku: data.json
+{
+    "number": "588",
+    "filename": "file.json"
+}
+Pamiętaj o obsłudze błędów. Żądania do API oraz zapis do pliku wykonuj asynchronicznie.  */
+
+const fs = require('fs');
+const fs2 = require('fs').promises;
+const axios = require('axios');
+
+function readDataSync() {
+	try {
+		const data = fs.readFileSync('node-data.json', 'utf8');
+		return data;
+	} catch (error) {
+		console.error('Error reading file:', error);
+		return null;
 	}
-});
+}
+
+const fileData = readDataSync();
+const { number, filename } = JSON.parse(fileData);
+
+async function getDataAndWriteToFile() {
+	try {
+		const url = `https://lukaszuk.net/numbers.php?number=${number}`;
+		const response = await axios.get(url);
+		const data = response.data;
+
+		await fs2.writeFile(filename, data);
+		console.log('Data saved to file!');
+	} catch (error) {
+		console.log('Error writing file:', error);
+	}
+}
+getDataAndWriteToFile();
