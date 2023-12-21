@@ -69,7 +69,7 @@ function readDataSync() {
 		const data = fs.readFileSync('node-data.json', 'utf8');
 		return data;
 	} catch (error) {
-		console.error('Error reading file:', error);
+		console.error('Error reading file:', error.message);
 		return null;
 	}
 }
@@ -84,9 +84,9 @@ async function getDataAndWriteToFile() {
 		const data = response.data;
 
 		await fs2.writeFile(filename, data);
-		console.log('Data saved to file!');
+		console.log('Data saved to file! Congratulations!');
 	} catch (error) {
-		console.log('Error writing file:', error);
+		console.log('Error writing file:', error.message);
 	}
 }
 getDataAndWriteToFile();
