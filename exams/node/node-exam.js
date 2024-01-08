@@ -4,14 +4,12 @@ Uncaught RangeError: Maximum call stack size exceeded */
 // function overflow() {
 // 	overflow();
 // }
-
 // overflow();
 
 /* 2. [2 punkty] Napisz aplikację która przyjmuje w parametrze uruchamiania ciąg znaków a następnie wyświetli go w kolorach tęczy. Wykorzystaj moduł colors (https://www.npmjs.com/package/colors) w wersji 1.3.2!. Pamiętaj o obsłudze błędów.
 Sposób obsługi parametrów wejściowych jest dowolny (w kodzie rozwiązania należy dodać komentarz z przykładowym wywołaniem). */
 
 // const colors = require('colors');
-// const { error } = require('console');
 // const text = process.argv[2];
 
 // if (process.argv.length !== 3 || text === '' || text === ' ') {
@@ -60,33 +58,33 @@ Przykład pliku: data.json
 }
 Pamiętaj o obsłudze błędów. Żądania do API oraz zapis do pliku wykonuj asynchronicznie.  */
 
-const fs = require('fs');
-const fs2 = require('fs').promises;
-const axios = require('axios');
+// const fs = require('fs');
+// const fs2 = require('fs').promises;
+// const axios = require('axios');
 
-function readDataSync() {
-	try {
-		const data = fs.readFileSync('node-data.json', 'utf8');
-		return data;
-	} catch (error) {
-		console.error('Error reading file:', error.message);
-		return null;
-	}
-}
+// function readDataSync() {
+// 	try {
+// 		const data = fs.readFileSync('node-data.json', 'utf8');
+// 		return data;
+// 	} catch (error) {
+// 		console.error('Error reading file:', error.message);
+// 		return null;
+// 	}
+// }
 
-const fileData = readDataSync();
-const { number, filename } = JSON.parse(fileData);
+// const fileData = readDataSync();
+// const { number, filename } = JSON.parse(fileData);
 
-async function getDataAndWriteToFile() {
-	try {
-		const url = `https://lukaszuk.net/numbers.php?number=${number}`;
-		const response = await axios.get(url);
-		const data = response.data;
+// async function getDataAndWriteToFile() {
+// 	try {
+// 		const url = `https://lukaszuk.net/numbers.php?number=${number}`;
+// 		const response = await axios.get(url);
+// 		const data = response.data;
 
-		await fs2.writeFile(filename, data);
-		console.log('Data saved to file! Congratulations!');
-	} catch (error) {
-		console.log('Error writing file:', error.message);
-	}
-}
-getDataAndWriteToFile();
+// 		await fs2.writeFile(filename, data);
+// 		console.log('Data saved to file! Congratulations!');
+// 	} catch (error) {
+// 		console.log('Error writing file:', error.message);
+// 	}
+// }
+// getDataAndWriteToFile();
