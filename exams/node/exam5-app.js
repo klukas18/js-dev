@@ -19,32 +19,49 @@ pogoda: https://api.openweathermap.org/data/2.5/weather?appid=0ed761300a2725ca77
 np https://api.openweathermap.org/data/2.5/weather?appid=0ed761300a2725ca778c07831ae64d6e&q=Białystok
 */
 
-const axios = require('axios');
-const yargs = require('yargs');
+const yargs = require('yargs/yargs');
 
 const { getUserInfo, getUserRepos } = require('./exam5-github.js');
 const { getUserWeather } = require('./exam5-weather.js');
 
-const { hideBin } = require('yargs/helpers');
-const argv = yargs(hideBin(process.argv)).argv;
+const argv = yargs(process.argv.slice(2))
+	.option('user', {
+		describe: 'Displays GitHub username.',
+		type: 'string',
+		demandOption: true,
+	})
+	.option('followers', {
+		describe: 'Shows the current number of followers of that user.',
+		type: 'boolean',
+		default: false,
+	})
+	.help()
+	.alias('help', 'h').argv;
 
 const displayUserInfo = async () => {
 	try {
 		const { name, followers, location } = await getUserInfo(argv.user);
-		if (argv.followers) {
-			console.log(
-				`User ${name} has ${followers} followers and is located in ${location}`
-			);
-		} else {
-			console.log(`User ${name} is located in ${location}`);
-		}
+		console.log(
+			argv.followers && name != null && location != null
+				? `User ${name} has ${followers} followers and is located in ${location}.`
+				: argv.followers && name != null && location == null
+				? `User ${name} has ${followers} followers and doesn't share his location.`
+				: name != null && location != null
+				? `User ${name} is located in ${location}.`
+				: name != null && location == null
+				? `User ${argv.user} name is ${name}.`
+				: `Searched user ${argv.user} doesn't share his name and/or location.`
+		);
+
 		const repos = await getUserRepos(argv.user);
-		console.log(`Number of repos: ${repos.length}`);
-		console.log(`Repos: ${repos.map((repo) => repo.name)}`);
+		console.log(`Currently ${argv.user} has ${repos.length} repositories.`);
+		console.log(`Repositories: ${repos.map((repo) => repo.name).join(', ')}`);
 
 		const weather = await getUserWeather(argv.user);
 		console.log(
-			`Weather in ${location}: ${weather.weather[0].main}, ${weather.weather[0].description}`
+			location == null
+				? `User ${argv.user} doesn't share his location. Weather data is unavailable.`
+				: `Weather in ${location}: ${weather.weather[0].main}, ${weather.weather[0].description}`
 		);
 	} catch (error) {
 		console.log(`Couldn't get user info for ${argv.user}:`, error.message);
