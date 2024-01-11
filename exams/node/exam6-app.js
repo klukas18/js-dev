@@ -16,7 +16,7 @@ yargs
 	)
 	.command(
 		'remove',
-		'Remove a TODO',
+		'Remove a TODO using its index',
 		{ index: { type: 'number', demandOption: true } },
 		async (argv) => {
 			const todos = await readTodos();

@@ -69,3 +69,7 @@ const displayUserInfo = async () => {
 };
 
 displayUserInfo();
+
+// Example: node exam5-app.js --user=octocat --followers
+// Example: node exam5-app.js --user=pawellukaszuk --followers
+// Example: node exam5-app.js --user=klukas18 --followers
