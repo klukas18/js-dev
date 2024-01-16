@@ -18,36 +18,48 @@ const writeTodos = require('./exam6-writetodos');
 yargs
 	.command(
 		'add',
-		'Add a new TODO',
+		'Add a new TODO with --todo flag',
 		{ todo: { type: 'string', demandOption: true } },
 		async (argv) => {
-			const todos = await readTodos();
-			todos.push(argv.todo);
-			await writeTodos(todos);
-			console.log(`TODO added successfully: ${argv.todo}`);
+			try {
+				const todos = await readTodos();
+				todos.push(argv.todo);
+				await writeTodos(todos);
+				console.log(`TODO added successfully: ${argv.todo}`);
+			} catch {
+				console.log('Error adding TODO!');
+			}
 		}
 	)
 	// .command(
 	// 	'remove',
-	// 	'Remove a TODO using its index',
+	// 	'Remove a TODO using its index with --index flag',
 	// 	{ index: { type: 'number', demandOption: true } },
 	// 	async (argv) => {
-	// 		const todos = await readTodos();
-	// 		if (argv.index >= 0 && argv.index < todos.length) {
-	// 			const removed = todos.splice(argv.index, 1);
-	// 			await writeTodos(todos);
-	// 			console.log(`TODO removed: ${removed[0]}`);
-	// 		} else {
-	// 			console.log('Invalid index!');
+	// 		try {
+	// 			const todos = await readTodos();
+	// 			if (argv.index >= 0 && argv.index < todos.length) {
+	// 				const removed = todos.splice(argv.index, 1);
+	// 				await writeTodos(todos);
+	// 				console.log(`TODO removed: ${removed[0]}`);
+	// 			} else {
+	// 				console.log('Invalid index!');
+	// 			}
+	// 		} catch {
+	// 			console.log('Error removing TODO!');
 	// 		}
 	// 	}
 	// )
 	.command('list', 'List all TODOS', async () => {
-		const todos = await readTodos();
-		console.log('Your TODOs:');
-		todos.forEach((todo, index) => {
-			console.log(`${index}. ${todo}`);
-		});
+		try {
+			const todos = await readTodos();
+			console.log('Your TODOs:');
+			todos.forEach((todo, index) => {
+				console.log(`${index}. ${todo}`);
+			});
+		} catch {
+			console.log('Error reading TODOs!');
+		}
 	})
 	.demandCommand(1, 'You need at least one command to execute program!')
 	.help().argv;
