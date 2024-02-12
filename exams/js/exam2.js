@@ -24,7 +24,7 @@ for (let suit of suits) {
 		deck.push({ rank, suit });
 	}
 }
-
+console.log(deck);
 // 2. Shuffle the deck
 deck.sort(() => Math.random() - 0.5);
 let hand = deck.slice(0, 5);

@@ -1,3 +1,5 @@
+// SUDOKU SOLVER LOGIC
+
 function isSafe(board, row, col, num) {
 	// Check the row
 	for (let x = 0; x <= 8; x++) {
@@ -56,6 +58,8 @@ function solveSudoku(board) {
 	}
 	return false; // trigger backtracking
 }
+
+// SUDOKU SOLVER BOARD INTERACTION
 
 window.onload = function () {
 	// Add input event listener to each cell
@@ -127,3 +131,10 @@ window.onload = function () {
 			}
 		});
 };
+
+document.getElementById('clear-button').addEventListener('click', function () {
+	let cells = document.querySelectorAll('#sudoku-board input');
+	cells.forEach(function (cell) {
+		cell.value = '';
+	});
+});
