@@ -41,7 +41,7 @@ function findEmpty(board) {
 //////////////////// **** QUICK RESPONSE **** ///////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-function solveSudoku(board) {
+function solveSudokuQuick(board) {
 	let emptySpot = findEmpty(board);
 	let row = emptySpot[0];
 	let col = emptySpot[1];
@@ -72,7 +72,7 @@ function solveSudoku(board) {
 	for (let num = 1; num <= 9; num++) {
 		if (isSafe(board, row, col, num)) {
 			board[row][col] = num;
-			if (solveSudoku(board)) {
+			if (solveSudokuQuick(board)) {
 				return true;
 			}
 			board[row][col] = 0; // undo the move
@@ -85,52 +85,52 @@ function solveSudoku(board) {
 //////////////////// **** ANIMATED RESPONSE **** ////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-// async function solveSudoku(board) {
-// 	let emptySpot = findEmpty(board);
-// 	let row = emptySpot[0];
-// 	let col = emptySpot[1];
+async function solveSudokuCool(board) {
+	let emptySpot = findEmpty(board);
+	let row = emptySpot[0];
+	let col = emptySpot[1];
 
-// 	// Base case: If no empty spot, the board is solved
-// 	if (row == -1) {
-// 		for (let i = 0; i < 9; i++) {
-// 			for (let j = 0; j < 9; j++) {
-// 				let cell = document.getElementById(`cell-${i}-${j}`);
-// 				if (cell) {
-// 					cell.classList.add('solved');
-// 				}
-// 			}
-// 		}
-// 		return true;
-// 	}
+	// Base case: If no empty spot, the board is solved
+	if (row == -1) {
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				let cell = document.getElementById(`cell-${i}-${j}`);
+				if (cell) {
+					cell.classList.add('solved');
+				}
+			}
+		}
+		return true;
+	}
 
-// 	for (let num = 1; num <= 9; num++) {
-// 		if (isSafe(board, row, col, num)) {
-// 			board[row][col] = num;
+	for (let num = 1; num <= 9; num++) {
+		if (isSafe(board, row, col, num)) {
+			board[row][col] = num;
 
-// 			// Add animation to the current cell
-// 			let cell = document.getElementById(`cell-${row}-${col}`);
-// 			if (cell) {
-// 				cell.value = num; // Show the number
-// 				cell.classList.add('animate-input');
+			// Add animation to the current cell
+			let cell = document.getElementById(`cell-${row}-${col}`);
+			if (cell) {
+				cell.value = num; // Show the number
+				cell.classList.add('animate-input');
 
-// 				// Add a delay
-// 				await new Promise((resolve) => setTimeout(resolve, 100));
-// 				cell.classList.remove('animate-input');
-// 			}
+				// Add a delay
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				cell.classList.remove('animate-input');
+			}
 
-// 			if (await solveSudoku(board)) {
-// 				return true;
-// 			}
+			if (await solveSudokuCool(board)) {
+				return true;
+			}
 
-// 			board[row][col] = 0; // undo the move
-// 			if (cell) {
-// 				cell.value = ''; // Clear the cell value
-// 			}
-// 		}
-// 	}
+			board[row][col] = 0; // undo the move
+			if (cell) {
+				cell.value = ''; // Clear the cell value
+			}
+		}
+	}
 
-// 	return false; // trigger backtracking
-// }
+	return false; // trigger backtracking
+}
 
 // ************************************************************************************
 // SUDOKU BOARD INTERACTION
@@ -174,6 +174,24 @@ window.onload = function () {
 						}
 					}
 
+					// Check for duplicates in the current block
+					let blockRowStart = Math.floor(i / 3) * 3;
+					let blockColStart = Math.floor(j / 3) * 3;
+					for (let bi = 0; bi < 3; bi++) {
+						for (let bj = 0; bj < 3; bj++) {
+							let otherCell = document.getElementById(
+								`cell-${blockRowStart + bi}-${blockColStart + bj}`
+							);
+							if (otherCell != cell && otherCell.value == cell.value) {
+								// If a duplicate is found, clear the input and show an alert
+								cell.value = '';
+								alert('Duplicate numbers in the same block are not allowed');
+								cell.classList.remove('animate-input');
+								return;
+							}
+						}
+					}
+
 					// Remove the class after the animation duration (0.5s)
 					setTimeout(function () {
 						cell.classList.remove('animate-input');
@@ -184,7 +202,7 @@ window.onload = function () {
 	}
 
 	document
-		.getElementById('solve-button')
+		.getElementById('quick-solve-button')
 		.addEventListener('click', async function () {
 			// Read board state from inputs
 			let board = [];
@@ -199,7 +217,51 @@ window.onload = function () {
 			}
 
 			// Solve the board
-			if (await solveSudoku(board)) {
+			if (await solveSudokuQuick(board)) {
+				// Update inputs with solved board state
+				for (let i = 0; i < 9; i++) {
+					for (let j = 0; j < 9; j++) {
+						let cell = document.getElementById(`cell-${i}-${j}`);
+						if (cell) {
+							cell.value = board[i][j];
+						}
+					}
+				}
+
+				// Remove the 'solved' class from all cells after 1 second
+				setTimeout(function () {
+					for (let i = 0; i < 9; i++) {
+						for (let j = 0; j < 9; j++) {
+							let cell = document.getElementById(`cell-${i}-${j}`);
+							if (cell) {
+								cell.classList.remove('solved');
+							}
+						}
+					}
+				}, 1000);
+			} else {
+				alert('This puzzle cannot be solved');
+			}
+		});
+
+	// Add event listener to the 'Animated Solve' button
+	document
+		.getElementById('cool-solve-button')
+		.addEventListener('click', async function () {
+			// Read board state from inputs
+			let board = [];
+			for (let i = 0; i < 9; i++) {
+				let row = [];
+				for (let j = 0; j < 9; j++) {
+					let cell = document.getElementById(`cell-${i}-${j}`);
+					let value = cell ? cell.value : '';
+					row.push(value ? parseInt(value, 10) : 0);
+				}
+				board.push(row);
+			}
+
+			// Solve the board
+			if (await solveSudokuCool(board)) {
 				// Update inputs with solved board state
 				for (let i = 0; i < 9; i++) {
 					for (let j = 0; j < 9; j++) {
